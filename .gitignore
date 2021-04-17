@@ -1,0 +1,9 @@
+# Project exclude paths
+/out/
+/spring03_bean_configuration/target/
+/spring04_dependency_injection/target/
+/spring05_autowired/target/
+/spring06_autowired_annotation/target/
+/spring07_java_config/target/
+/spring08_aop/target/
+/spring09_mybatis/target/

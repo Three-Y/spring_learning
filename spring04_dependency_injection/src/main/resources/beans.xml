@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="student" class="yan.ibbie.pojo.Student">
+        <!--值注入-->
+        <property name="name" value="ibbie"></property>
+        <!--bean注入-->
+        <property name="address" ref="address"></property>
+        <!--数组-->
+        <property name="books">
+            <array>
+                <value>java编程思想</value>
+                <value>spring实战</value>
+                <value>大话设计模式</value>
+                <value>spring源码深度解析</value>
+            </array>
+        </property>
+        <!--List-->
+        <property name="hobbies">
+            <list>
+                <value>敲代码</value>
+                <value>不停敲代码</value>
+            </list>
+        </property>
+        <!--Map-->
+        <property name="card">
+            <map>
+                <entry key="学号" value="666"></entry>
+                <entry key="姓名" value="ibbie"></entry>
+            </map>
+        </property>
+        <!--Set-->
+        <property name="games">
+            <set>
+                <value>剧本杀</value>
+                <value>狼人杀</value>
+            </set>
+        </property>
+        <!--null-->
+        <property name="wife">
+            <null></null>
+        </property>
+        <!--Properties-->
+        <property name="info">
+            <props>
+                <prop key="身高">200</prop>
+                <prop key="体重">0.0</prop>
+                <prop key="性别">女</prop>
+                <prop key="年龄">18</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="address" class="yan.ibbie.pojo.Address">
+        <!--构造器注入，更多见spring03_bean_configuration-->
+        <constructor-arg name="str" value="佛山"></constructor-arg>
+    </bean>
+
+    <!--使用p-namespace注入，p表示property，更多见官网-->
+    <!--要导入约束：xmlns:p="http://www.springframework.org/schema/p"-->
+    <bean id="student1" class="yan.ibbie.pojo.Student" p:name="ibbie1" p:address-ref="address"></bean>
+    <!--使用c-namespace注入，c表示constructor，更多见官网-->
+    <!--要导入约束：xmlns:c="http://www.springframework.org/schema/c"-->
+    <bean id="student2" class="yan.ibbie.pojo.Student" c:name="ibbie" c:address-ref="address"></bean>
+
+
+    <!--singleton单例模式，同一个bean只创建一次对象（默认值）-->
+    <!--prototype原型模式，每次get对象都创建一个新对象-->
+    <!--其余的request、session、application、websocket只在web开发中使用-->
+    <bean id="user" class="yan.ibbie.pojo.User" scope="prototype">
+        <property name="name" value="ibbie"></property>
+    </bean>
+
+</beans>

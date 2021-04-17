@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--开启aop注解-->
+    <aop:aspectj-autoproxy/>
+
+    <bean id="userService" class="yan.ibbie.service.UserServiceImpl"></bean>
+    <bean id="beforeLog" class="yan.ibbie.log.BeforeLog"></bean>
+    <bean id="afterLog" class="yan.ibbie.log.AfterLog"></bean>
+    <bean id="diyAspect" class="yan.ibbie.diy.DiyAspect"></bean>
+    <bean id="myAspect" class="yan.ibbie.diy.MyAspect"/>
+
+    <!--AOP-->
+    <!--需要导入aop的约束-->
+
+    <!--方法一-->
+    <aop:config>
+        <!--
+        切点，被增强的接口方法
+        execution(修饰符 返回值 包名.类名/接口名.方法名(参数列表))
+        -->
+        <aop:pointcut id="userServicePointCut" expression="execution(* yan.ibbie.service.UserService.*(..))"/>
+
+        <!--
+        通知，要增强的内容
+        advice-ref:要执行增强工作的bean
+        pointcut-ref: 要增强的切点
+        -->
+        <aop:advisor advice-ref="beforeLog" pointcut-ref="userServicePointCut"/>
+        <aop:advisor advice-ref="afterLog" pointcut-ref="userServicePointCut"/>
+    </aop:config>
+
+    <!--方法二-->
+    <aop:config>
+        <!--切面-->
+        <aop:aspect ref="diyAspect">
+            <!--切点-->
+            <aop:pointcut id="userServicePointCut" expression="execution(* yan.ibbie.service.UserService.*(..))"/>
+            <!--通知-->
+            <aop:before method="diyMethod1" pointcut-ref="userServicePointCut"/>
+            <aop:after method="diyMethod2" pointcut-ref="userServicePointCut"/>
+            <!--注意要在around的方法中调用切入点的原方法-->
+            <aop:around method="diyMethod3" pointcut-ref="userServicePointCut"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!--方法三：使用注解-->
+</beans>

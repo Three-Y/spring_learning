@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="cat" class="yan.ibbie.Cat">
+        <property name="name" value="懵猪"></property>
+    </bean>
+
+    <bean id="dog" class="yan.ibbie.Dog">
+        <property name="name" value="李白"></property>
+    </bean>
+
+    <!--显式装配-->
+<!--    <bean id="master" class="yan.ibbie.Master">-->
+<!--        <property name="cat" ref="cat"></property>-->
+<!--        <property name="dog" ref="dog"></property>-->
+<!--    </bean>-->
+
+    <!--Autowired-->
+    <!--byName:根据属性的set方法名，去掉“set”后的名字作为id，在容器中寻找该id的bean进行装配-->
+    <!--byType:根据属性的类型，在容器中寻找相同类型的bean进行装配，假如同类型的bean有多个，不能进行自动装配-->
+    <bean id="master" class="yan.ibbie.Master" autowire="byType"></bean>
+
+</beans>

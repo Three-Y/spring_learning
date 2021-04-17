@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--
+    使用注解要导入约束
+    xmlns:context="http://www.springframework.org/schema/context
+    xsi:schemaLocation="http://www.springframework.org/schema/context
+                        https://www.springframework.org/schema/context/spring-context.xsd"
+    -->
+    <!--开启注解支持-->
+    <!--默认先使用byType，若同类型存在多个bean，就使用byName，都确定不了bean就报错-->
+    <context:annotation-config/>
+
+    <bean id="cat" class="yan.ibbie.pojo.Cat"><property name="name" value="懵猪Cat"/></bean>
+    <bean id="cat66" class="yan.ibbie.pojo.CuteCat"><property name="name" value="懵猪CuteCat00"/></bean>
+<!--    <bean id="cat11" class="yan.ibbie.pojo.CuteCat"><property name="name" value="懵猪CuteCat11"/></bean>-->
+    <bean id="dog66" class="yan.ibbie.pojo.Dog"><property name="name" value="李白66"/> </bean>
+    <bean id="dog" class="yan.ibbie.pojo.Dog"><property name="name" value="李白"/> </bean>
+    <bean id="master" class="yan.ibbie.pojo.Master"/>
+    <!--
+    @Resource 先使用byName
+              若没有则使用byType，byType可以是本类或者本类的子类，若本类或者本类的子类有多个，注入失败
+              若使用name指定bean，只使用指定name的bean，没有则注入失败
+    @Autowired 先使用byType，byType可以是本类或者本类的子类
+               若本类或者本类的子类有多个，使用byName
+               若使用byName匹配不到，注入失败
+    @Qualifier 指定bean
+               若使用@Qualifier的同时也使用了@Autowired，只使用指定name的bean，没有则注入失败
+    -->
+</beans>

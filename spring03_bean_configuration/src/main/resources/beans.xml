@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--导入其它配置文件，一般团队开发使用-->
+    <import resource="beans2.xml"></import>
+
+    <!--默认使用无参构造器创建对象-->
+    <bean id="user" class="yan.ibbie.pojo.User"></bean>
+    <!--使用有参构造创建对象，用下标表示属性-->
+    <bean id="user1" class="yan.ibbie.pojo.User">
+        <constructor-arg index="0" value="ibbie_idx"></constructor-arg>
+    </bean>
+    <!--使用有参构造创建对象，用属性名表示属性-->
+    <bean id="user2" class="yan.ibbie.pojo.User">
+        <constructor-arg name="name" value="ibbie_name"></constructor-arg>
+    </bean>
+    <!--使用有参构造创建对象，用属性类型表示属性，！！不推荐！！-->
+    <bean id="user3" class="yan.ibbie.pojo.User">
+        <constructor-arg type="java.lang.String" value="ibbie_type"></constructor-arg>
+    </bean>
+
+</beans>

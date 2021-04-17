@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--导入context约束-->
+    <!--开启组件扫描，并指定要扫描的包-->
+    <context:component-scan base-package="yan.ibbie.pojo"/>
+    <!--开启注解-->
+    <context:annotation-config/>
+
+    <!--
+    @Component 表示为该类创建bean
+               有几个衍生注解，按照mvc三层架构分层，作用与@Component相同
+               @Controller
+               @Service
+               @Repository
+    @Scope bean的作用域，默认单例singleton
+    @Value 可作用再属性和set方法上，为该bean的属性赋值
+    -->
+
+</beans>
