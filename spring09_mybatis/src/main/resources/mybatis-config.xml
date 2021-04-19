@@ -4,25 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-    <properties resource="mysql.properties"/>
+<!--    <properties resource="mysql.properties"/>-->
 
-    <!--别名-->
+    <!--别名，这里保留了别名的配置，spring中其实也可以配置别名-->
     <typeAliases>
         <package name="yan.ibbie.pojo"/>
     </typeAliases>
 
-    <environments default="myDevelopment">
-        <environment id="myDevelopment">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="${driver}"/>
-                <property name="url" value="${url}"/>
-                <property name="username" value="${username}"/>
-                <property name="password" value="${password}"/>
-            </dataSource>
-        </environment>
-    </environments>
-    <mappers>
-        <mapper class="yan.ibbie.dao.UserMapper"/>
-    </mappers>
+    <!--原始的mybatis配置-->
+<!--    <environments default="myDevelopment">-->
+<!--        <environment id="myDevelopment">-->
+<!--            <transactionManager type="JDBC"/>-->
+<!--            <dataSource type="POOLED">-->
+<!--                <property name="driver" value="${driver}"/>-->
+<!--                <property name="url" value="${url}"/>-->
+<!--                <property name="username" value="${username}"/>-->
+<!--                <property name="password" value="${password}"/>-->
+<!--            </dataSource>-->
+<!--        </environment>-->
+<!--    </environments>-->
+<!--    <mappers>-->
+<!--        <mapper class="yan.ibbie.dao.UserMapper"/>-->
+<!--    </mappers>-->
 </configuration>

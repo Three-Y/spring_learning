@@ -7,3 +7,4 @@
 /spring07_java_config/target/
 /spring08_aop/target/
 /spring09_mybatis/target/
+/spring09_mybatis/src/main/resources/mysql.properties
