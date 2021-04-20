@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yan.ibbie.mapper.UserMapper">
+
+    <select id="selectUsers" resultType="user">
+        select * from mybatis_plus.user;
+    </select>
+
+    <insert id="add" parameterType="user">
+        insert into mybatis_plus.user (id,name,age,email) values(#{id},#{name},#{age},#{email});
+    </insert>
+
+    <update id="updateEmailById" parameterType="map">
+        update mybatis_plus.user set email=#{email} where id=#{id};
+    </update>
+
+    <delete id="delete">
+        delete from mybatis_plus.user where id=#{id};
+    </delete>
+
+</mapper>
