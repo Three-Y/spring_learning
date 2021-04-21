@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yan.ibbie.mapper.UserMapper">
+
+    <!--如果mapper.xml中存在中文注释，要将文件开头的encoding从UTF-8改成UTF8，否则不知道为啥会报错-->
+
+    <!--
+    关于resultType
+        表示要将返回的结果封装成什么类型，可以使用别名，或者全类名，或者在mybatis中配置别名后，使用类的别名
+            可以是基本数据类型
+            可以是java类
+                只要返回结果的结构与指定的java类型的结构一致，就可以mybatis就能自动封装成对应的java类型
+                如果返回多个结果，会封装成一个list，list的内装的类型就是指定的java类型
+            可以是Map
+                但是要求返回结果只有一个（一行记录）
+    -->
+
+    <!--（推荐使用）一个参数，基本数据类型或字符串-->
+    <select id="selectUserById" resultType="user">
+        select * from user where id = #{id};
+    </select>
+
+    <!--（推荐使用）多参数，在接口方法处给参数取名字，用指定的参数名调用-->
+    <!--返回值是一个list，resultType指明list中装的类型（泛型）即可-->
+    <select id="selectUserByIdAndName" resultType="user">
+        select * from user where id=#{id666} and name=#{name888};
+        <!--不常用：也可以使用索引，按参数位置顺序取出，前提是接口方法处没有使用@Param命名参数-->
+        <!--select * from user where id=#{arg0} and name=#{arg1};-->
+    </select>
+
+    <!--（推荐使用）参数是一个对象，用对象的属性名调用-->
+    <select id="selectUserByEmail" resultType="user">
+        select * from user where name=#{name} and email=#{email};
+    </select>
+
+    <!--参数是一个Map，使用key调用-->
+    <!--不建议使用，key随时可以改变，而xml也要跟着改变，修改的地方太多，可读性也差-->
+    <select id="selectUserByNameAge" resultType="user">
+        select * from user where name=#{mapKeyName} and age=#{mapKeyAge};
+        <!--可以使用${}替换表名或者列名-->
+        <!--select * from ${table} where name=#{mapKeyName} and age=#{mapKeyAge};-->
+    </select>
+
+    <!--
+    关于resultMap（结果映射）(推荐使用)
+        假如表格字段名与java类的属性名不一致，封装成java类后，属性值会是空的
+        可以使用resultMap显式告知mybatis哪个字段对应哪个属性
+    -->
+    <!--使用resultMap type是要封装成的java类，column是表格的字段名，property是java类的属性名-->
+    <resultMap id="myUserResultMap" type="myUser">
+        <!--主键列，使用id标签-->
+        <id column="id" property="myId"/>
+        <!--非主键列，使用result标签-->
+        <result column="name" property="myName"/>
+        <result column="age" property="myAge"/>
+        <result column="email" property="myEmail"/>
+    </resultMap>
+    <select id="selectUserByMyId" resultMap="myUserResultMap">
+        select * from user where id=#{myId};
+    </select>
+
+    <!--还可以给返回结果取别名，以解决字段名与属性名不一致的问题-->
+    <select id="selectUserByMyId222" resultType="myUser">
+        select id as myId,name as myName,age as myAge,email as myEmail from user where id=#{myId};
+    </select>
+
+    <!--模糊查询-->
+    <!--方式一：在参数中添加 % （推荐）-->
+    <select id="selectUserLikeName" resultType="user">
+        select * from user where name like #{name};
+    </select>
+    <!--方法二：在sql语句中添加 % -->
+    <select id="selectUserLikeName222" resultType="user">
+        select * from user where name like "%" #{name} "%";
+    </select>
+
+    <!--
+    #{}与${}的区别，使用#{}的地方都可以使用${}，但是：
+        #{}  使用的是占位符，底层使用PrepareStatement对象执行SQL语句（推荐使用）
+        ${}  使用的是字符串的拼接，底层使用Statement对象执行SQL语句
+             麻烦，效率比PrepareStatement，也不安全，有SQL注入的风险
+             但是，可以替换表名或者列名
+    -->
+
+    <!--*****动态SQL**********动态SQL**********动态SQL**********动态SQL**********动态SQL*****-->
+
+    <!--if标签-->
+    <!--
+        假如一个符合的条件都没有，where后面没有任何东西，该sql就不完整，会出错
+        假如第一个条件不符合，where后面直接跟or，也会出错
+        可以通过在where后面添加1=1解决（但也不是很好）
+    -->
+    <select id="selectUserByConditions" resultType="user">
+        select * from user where 1=1
+        <if test="name != null and name != ''">
+            or name = #{name}
+        </if>
+        <if test="age != null and age != ''">
+            or age > #{age}
+        </if>
+    </select>
+
+    <!--where标签-->
+    <!--
+        假如标签内没有任何内容，不会添加where
+        假如有多余的or或and，会自动删除
+    -->
+    <select id="selectUserByConditions222" resultType="user">
+        select * from user
+        <where>
+            <if test="name != null and name != ''">
+                name = #{name}
+            </if>
+            <if test="age != null and age != ''">
+                or age > #{age}
+            </if>
+        </where>
+    </select>
+    
+    <!--foreach标签-->
+    <!--
+        collection  传递进来的参数类型，list集合是list，数组是array
+        item    集合中每个元素的变量名
+        open    开头的符号
+        separator 每个元素之间的分隔符
+        close   结尾的符号
+    -->
+    <!--集合的元素是基本数据类型或字符串-->
+    <select id="selectUserInId" resultType="user">
+        select * from user where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <!--集合的元素是一个java对象-->
+    <select id="selectUserInUserId" resultType="user">
+        select * from user where id in
+        <foreach collection="list" item="user" open="(" separator="," close=")">
+            #{user.id}
+        </foreach>
+    </select>
+
+    <!--sql标签（定义sql语句片段）-->
+    <!--将常用的sql语句定义成sql片段，使用时直接使用include标签调用即可，减少重复代码-->
+    <sql id="mySql">
+        select id,name,age,email from user
+    </sql>
+    <select id="selectAllUser" resultType="user">
+        <include refid="mySql"/>
+    </select>
+
+</mapper>

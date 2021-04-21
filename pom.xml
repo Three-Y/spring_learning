@@ -19,6 +19,7 @@
         <module>spring08_aop</module>
         <module>spring09_mybatis</module>
         <module>spring10_transaction</module>
+        <module>spring11_mapper_xml</module>
     </modules>
 
     <dependencies>

@@ -6,12 +6,9 @@
 <configuration>
 
     <typeAliases>
-        <!--方法二：给某个全类名指定别名-->
-        <!--<typeAlias type="yan.ibbie.pojo.User" alias="abcdefg"/>-->
-
-        <!--方法二：指定包名后，类名就是别名，如user就是yan.ibbie.pojo.User的别名-->
         <package name="yan.ibbie.pojo"/>
     </typeAliases>
+
 
 
 </configuration>

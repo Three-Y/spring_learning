@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--数据源-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mybatis_plus?serverTimezone=GMT%2B8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="9853210"/>
+    </bean>
+
+    <!--SqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--包的别名配置，在原mybatis配置文件中-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--注册Mapper，记得在Maven的POM文件中配置该静态资源-->
+        <property name="mapperLocations" value="classpath:yan/ibbie/mapper/*.xml"/>
+    </bean>
+
+    <bean id="userMapper" class="yan.ibbie.mapper.UserMapperImpl">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+
+
+</beans>
